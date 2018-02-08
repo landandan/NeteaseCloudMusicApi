@@ -1,6 +1,7 @@
 const express = require("express");
 const apicache = require("apicache");
 const path = require("path");
+var AV = require("leanengine");
 
 const app = express();
 let cache = apicache.middleware;
@@ -252,6 +253,14 @@ app.use("/user/follows", require("./router/user_follows"));
 app.use("/user/subcount", require("./router/user_subcount"));
 
 app.use("/user/record", require("./router/user_playrecord"));
+
+AV.init({
+  appId: process.env.LEANCLOUD_APP_ID,
+  appKey: process.env.LEANCLOUD_APP_KEY,
+  masterKey: process.env.LEANCLOUD_APP_MASTER_KEY
+});
+
+app.use(AV.express());
 
 const port = process.env.PORT || 3000;
 
